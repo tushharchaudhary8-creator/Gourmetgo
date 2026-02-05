@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-header">
+    <h1>🍽️ {{ restaurant.name }} - Dashboard</h1>
+    <p>Manage your menu and incoming orders</p>
+</div>
+
+<div class="section">
+    <h2>➕ Add Menu Item</h2>
+    <form method="POST" action="{% url 'manage_menu' %}">
+        {% csrf_token %}
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; max-width: 800px;">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="item_name">Food Name <span style="color: #dc3545;">*</span></label>
+                <input type="text" id="item_name" name="item_name" placeholder="e.g., Margherita Pizza" required>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="price">Price (₹) <span style="color: #dc3545;">*</span></label>
+                <input type="number" id="price" name="price" placeholder="Enter price" min="1" step="1" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="e.g., Delicious cheese pizza with fresh tomatoes and basil" style="min-height: 80px;"></textarea>
+            <small style="color: #7f8c8d;">Describe ingredients, taste, or special features (optional)</small>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%; font-size: 16px; padding: 12px;">
+            ➕ Add Item to Menu
+        </button>
+    </form>
+</div>
+
+<div class="section">
+    <h2>📋 Your Menu</h2>
+    {% if menu_items %}
+        <div style="margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #007bff;">
+            <p style="margin: 0;"><strong>📊 Total Items:</strong> {{ menu_items.count }} items in your menu</p>
+        </div>
+        
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+            {% for item in menu_items %}
+                <div class="card" style="position: relative;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                        <h3 style="margin: 0; flex: 1;">{{ item.item_name }}</h3>
+                        {% if item.available %}
+                            <span class="badge badge-accepted" style="margin-left: 10px;">✓ Live</span>
+                        {% else %}
+                            <span class="badge badge-pending" style="margin-left: 10px;">Unavailable</span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if item.description %}
+                        <p style="color: #7f8c8d; font-size: 13px; margin: 8px 0;">{{ item.description }}</p>
+                    {% endif %}
+                    
+                    <div class="card-price">₹{{ item.price }}</div>
+                    
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ecf0f1; display: flex; gap: 10px;">
+                        <button style="flex: 1; padding: 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; cursor: pointer; font-size: 12px; color: #666;">
+                            ✎ Edit
+                        </button>
+                        <button style="flex: 1; padding: 8px; background: #ffe6e6; border: 1px solid #ffb3b3; border-radius: 4px; cursor: pointer; font-size: 12px; color: #c00;">
+                            🗑 Remove
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state" style="padding: 60px 20px;">
+            <p style="font-size: 18px; margin-bottom: 15px;">📭 Your menu is empty!</p>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Add your first menu item above to get started</p>
+            <a href="#" style="color: #007bff; font-weight: 500; text-decoration: none;">Scroll up to add items →</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h2>📦 Incoming Orders</h2>
+    {% if orders %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Customer</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><strong>{{ order.item.item_name }}</strong></td>
+                        <td>{{ order.customer.username }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td>₹{{ order.total_price }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <select name="status" onchange="this.form.submit()" style="padding: 6px; border: 2px solid #ecf0f1; border-radius: 4px; font-size: 13px;">
+                                    <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
+                                    <option value="accepted" {% if order.status == 'accepted' %}selected{% endif %}>Accepted</option>
+                                    <option value="out_for_delivery" {% if order.status == 'out_for_delivery' %}selected{% endif %}>Out for Delivery</option>
+                                    <option value="delivered" {% if order.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            {% if order.payment_status %}
+                                <span style="background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">✓ Paid</span>
+                            {% else %}
+                                <span style="background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">✗ Pending</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>No orders yet. Your restaurant is waiting for customers!</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+

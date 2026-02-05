@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h1>Create Your Account</h1>
+    <p>Join GourmetGo and start your food delivery journey</p>
+</div>
+
+<div style="max-width: 500px; margin: 0 auto;">
+    {% if errors %}
+        <div class="error-list">
+            <strong>⚠️ Please fix the following errors:</strong>
+            <ul>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="section">
+        <form method="POST" style="padding-bottom: 0;">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username" value="{{ username }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="your.email@example.com" value="{{ email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="At least 6 characters" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirm">Confirm Password</label>
+                <input type="password" id="password_confirm" name="password_confirm" placeholder="Re-enter your password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">I want to register as</label>
+                <select id="role" name="role" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="customer" {% if role == 'customer' %}selected{% endif %}>🛒 Customer</option>
+                    <option value="restaurant" {% if role == 'restaurant' %}selected{% endif %}>🍽️ Restaurant Owner</option>
+                    <option value="delivery" {% if role == 'delivery' %}selected{% endif %}>🚴 Delivery Partner</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn" style="width: 100%;">Create Account</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #ecf0f1;">
+            <p>Already have an account? <a href="{% url 'login' %}" style="color: #ff6b6b; font-weight: 600; text-decoration: none;">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

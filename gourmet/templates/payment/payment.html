@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h1>💳 Process Payment</h1>
+    <p>Review order and complete your payment</p>
+</div>
+
+{% if error %}
+    <div class="alert alert-error">
+        <strong>❌ Error:</strong> {{ error }}
+    </div>
+{% endif %}
+
+{% if success %}
+    <div class="alert alert-success">
+        <strong>✓ Success:</strong> {{ success }}
+    </div>
+{% endif %}
+
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="section">
+        <h2>📋 Order Details</h2>
+        <div class="table-container">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><strong>Item</strong></td>
+                        <td>{{ order.item.item_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Restaurant</strong></td>
+                        <td>{{ order.restaurant.name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quantity</strong></td>
+                        <td>{{ order.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Original Price</strong></td>
+                        <td>₹{{ order.total_price }}</td>
+                    </tr>
+                    {% if order.discount %}
+                    <tr class="discount-row">
+                        <td><strong>Discount</strong></td>
+                        <td>-₹{{ order.discount }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="total-row">
+                        <td><strong>Final Total</strong></td>
+                        <td>
+                            <strong>₹{% widthratio order.total_price 1 1 %}{% if order.discount %}-{{ order.discount }}{% endif %}</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎟️ Apply Coupon Code</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="coupon-input-group">
+                <input type="text" name="coupon_code" placeholder="Enter coupon code (e.g., SAVE10)" required>
+                <button type="submit" class="btn">Apply Coupon</button>
+            </div>
+        </form>
+        <p style="font-size: 13px; color: #7f8c8d; margin-top: 10px;">
+            💡 <strong>Available Coupons:</strong>
+            <br>• SAVE10 - 10% discount (Max ₹200)
+            <br>• NEWUSER20 - 20% discount (Max ₹300)
+            <br>• WELCOME50 - ₹50 discount (Min ₹200 order)
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>💰 Payment Method</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="coupon_code" value="">
+            
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" name="payment_method" value="card" checked required>
+                    <label style="margin: 0;"><strong>💳 Debit/Credit Card</strong><br><span style="font-size: 12px; color: #7f8c8d;">Secure card payment</span></label>
+                </label>
+            </div>
+
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" name="payment_method" value="upi" required>
+                    <label style="margin: 0;"><strong>📱 UPI</strong><br><span style="font-size: 12px; color: #7f8c8d;">Google Pay, PhonePe, PayTM</span></label>
+                </label>
+            </div>
+
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" name="payment_method" value="wallet" required>
+                    <label style="margin: 0;"><strong>👛 Digital Wallet</strong><br><span style="font-size: 12px; color: #7f8c8d;">PayTM, Amazon Pay</span></label>
+                </label>
+            </div>
+
+            <button type="submit" class="btn" style="width: 100%; padding: 14px; font-size: 16px; margin-top: 20px;">
+                Pay ₹{{ order.total_price|add:order.discount|add:0 }}
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 15px; color: #7f8c8d; font-size: 12px;">
+            🔒 Payments are secure and encrypted. This is a demo environment.
+        </p>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'dashboard' %}" style="color: #007bff; text-decoration: none; font-weight: 500;">← Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

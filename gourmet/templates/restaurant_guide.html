@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🍽️ Restaurant Owner Guide</h1>
+    <p>Complete guide to manage your menu and orders</p>
+</div>
+
+<div class="container">
+    <!-- Adding Menu Items -->
+    <div class="section">
+        <h2>➕ How to Add Menu Items</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+            <div>
+                <h3 style="color: #ff6b6b; margin-top: 0;">📝 Step 1: Fill Item Details</h3>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <p><strong>Food Name (Required)</strong></p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Enter the name of your food item<br/>
+                    Example: Margherita Pizza, Butter Chicken, California Roll</p>
+                    
+                    <p style="margin-top: 15px;"><strong>Price in ₹ (Required)</strong></p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Enter the selling price<br/>
+                    Example: 299, 199, 450</p>
+                    
+                    <p style="margin-top: 15px;"><strong>Description (Optional)</strong></p>
+                    <p style="color: #7f8c8d; font-size: 14px;">Add details about your item<br/>
+                    Example: "Fresh tomato base with mozzarella cheese and basil"</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: #4CAF50; margin-top: 0;">✅ Step 2: Submit Form</h3>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <p><strong>Click "➕ Add Item to Menu"</strong></p>
+                    <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 15px;">The button is located below all input fields</p>
+                    
+                    <div style="background: #d4edda; padding: 12px; border-radius: 6px; margin-bottom: 15px;">
+                        <strong style="color: #155724;">✓ Success!</strong>
+                        <p style="color: #155724; font-size: 14px; margin: 5px 0;">Item added to your menu</p>
+                    </div>
+                    
+                    <p style="color: #7f8c8d; font-size: 13px;"><em>The item will appear in your menu section immediately</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Management -->
+    <div class="section">
+        <h2>📋 Menu Management</h2>
+        
+        <div style="background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #ff6b6b; margin-bottom: 20px;">
+            <h3 style="color: #c0392b; margin-top: 0;">🔴 Live Items Display</h3>
+            <p style="margin: 10px 0;">Your menu items appear as cards with:</p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Item Name</strong> - Bold title at top</li>
+                <li><strong>Badge Status</strong> - Shows "✓ Live" or "Unavailable"</li>
+                <li><strong>Description</strong> - Optional details you added</li>
+                <li><strong>Price</strong> - Highlighted in red/coral color</li>
+                <li><strong>Action Buttons</strong> - Edit or Remove item</li>
+            </ul>
+        </div>
+
+        <h3>Item Status Badges</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+            <div style="background: #d4edda; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                <strong style="color: #155724;">✓ Available</strong>
+                <p style="color: #155724; font-size: 13px; margin-top: 8px;">Item is ready for customers to order</p>
+            </div>
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                <strong style="color: #856404;">Unavailable</strong>
+                <p style="color: #856404; font-size: 13px; margin-top: 8px;">Item is temporarily out of stock</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Examples -->
+    <div class="section">
+        <h2>💡 Popular Menu Items Examples</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            
+            <div class="card">
+                <h3>🍕 Pizza</h3>
+                <p style="color: #7f8c8d; font-size: 13px;">Margherita Pizza - Fresh mozzarella with basil and tomato</p>
+                <div class="card-price">₹299</div>
+            </div>
+
+            <div class="card">
+                <h3>🍔 Burger</h3>
+                <p style="color: #7f8c8d; font-size: 13px;">Classic Burger - Beef patty with cheese and special sauce</p>
+                <div class="card-price">₹199</div>
+            </div>
+
+            <div class="card">
+                <h3>🍜 Pasta</h3>
+                <p style="color: #7f8c8d; font-size: 13px;">Spaghetti Carbonara - Creamy sauce with bacon bits</p>
+                <div class="card-price">₹249</div>
+            </div>
+
+            <div class="card">
+                <h3>🍱 Sushi</h3>
+                <p style="color: #7f8c8d; font-size: 13px;">California Roll - Crab, avocado, and cucumber</p>
+                <div class="card-price">₹349</div>
+            </div>
+
+            <div class="card">
+                <h3>🍛 Curry</h3>
+                <p style="color: #7f8c8d; font-size: 13px;">Butter Chicken - Creamy tomato sauce with spices</p>
+                <div class="card-price">₹279</div>
+            </div>
+
+            <div class="card">
+                <h3>🥗 Salad</h3>
+                <p style="color: #7f8c8d; font-size: 13px;">Caesar Salad - Fresh greens with parmesan dressing</p>
+                <div class="card-price">₹149</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Managing Orders -->
+    <div class="section">
+        <h2>📦 Managing Incoming Orders</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                <h3 style="color: #856404; margin-top: 0;">1️⃣ Order Arrives</h3>
+                <p style="margin: 5px 0;"><strong>Status:</strong> <span class="badge badge-pending">Pending</span></p>
+                <p style="color: #7f8c8d; font-size: 13px;">Customer placed order, waiting for restaurant to accept</p>
+            </div>
+
+            <div style="background: #d4edda; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                <h3 style="color: #155724; margin-top: 0;">2️⃣ Accept Order</h3>
+                <p style="margin: 5px 0;"><strong>Action:</strong> Change status to <span class="badge badge-accepted">Accepted</span></p>
+                <p style="color: #7f8c8d; font-size: 13px;">You confirm order and start preparing food</p>
+            </div>
+
+            <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; border-left: 4px solid #17a2b8;">
+                <h3 style="color: #0c5460; margin-top: 0;">3️⃣ Mark Ready</h3>
+                <p style="margin: 5px 0;"><strong>Action:</strong> Change to <span class="badge badge-delivery">Out for Delivery</span></p>
+                <p style="color: #7f8c8d; font-size: 13px;">Food is ready, handed to delivery partner</p>
+            </div>
+
+            <div style="background: #c8e6c9; padding: 15px; border-radius: 8px; border-left: 4px solid #4CAF50;">
+                <h3 style="color: #1b5e20; margin-top: 0;">4️⃣ Delivered</h3>
+                <p style="margin: 5px 0;"><strong>Status:</strong> <span class="badge badge-delivered">Delivered</span></p>
+                <p style="color: #7f8c8d; font-size: 13px;">Delivery boy updated status after customer received</p>
+            </div>
+        </div>
+
+        <div style="background: #f0f7f0; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745; margin-top: 15px;">
+            <h4 style="margin-top: 0; color: #155724;">💡 Pro Tip</h4>
+            <p style="margin: 8px 0;">Quickly update order status by selecting from the dropdown in the "Status" column. Changes are saved instantly!</p>
+        </div>
+    </div>
+
+    <!-- Dashboard Overview -->
+    <div class="section">
+        <h2>📊 Dashboard Overview</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            
+            <div class="card" style="border-top: 4px solid #ff6b6b;">
+                <h3>➕ Add Menu Item Section</h3>
+                <p style="color: #7f8c8d; font-size: 13px; margin-bottom: 10px;">At the top of dashboard. Fill all required fields and click "Add Item"</p>
+                <span class="badge" style="background: #ff6b6b; color: white;">Required Fields: Name, Price</span>
+            </div>
+
+            <div class="card" style="border-top: 4px solid #007bff;">
+                <h3>📋 Your Menu Section</h3>
+                <p style="color: #7f8c8d; font-size: 13px; margin-bottom: 10px;">Shows all items you've added with prices and availability</p>
+                <span class="badge" style="background: #007bff; color: white;">Updated in Real-Time</span>
+            </div>
+
+            <div class="card" style="border-top: 4px solid #4CAF50;">
+                <h3>📦 Incoming Orders Section</h3>
+                <p style="color: #7f8c8d; font-size: 13px; margin-bottom: 10px;">Table with all customer orders. Manage status and track payment</p>
+                <span class="badge" style="background: #4CAF50; color: white;">Manage Order Status</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Troubleshooting -->
+    <div class="section">
+        <h2>🐛 Troubleshooting</h2>
+        
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+            <h4 style="margin-top: 0; color: #856404;">Q: Item not showing after I added it?</h4>
+            <p style="margin: 8px 0; color: #856404;"><strong>A:</strong> Refresh the page. Item should appear in "Your Menu" section</p>
+        </div>
+
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+            <h4 style="margin-top: 0; color: #856404;">Q: Can I edit item price after adding?</h4>
+            <p style="margin: 8px 0; color: #856404;"><strong>A:</strong> Click the "✎ Edit" button on the item card (coming soon)</p>
+        </div>
+
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+            <h4 style="margin-top: 0; color: #856404;">Q: How to remove an item?</h4>
+            <p style="margin: 8px 0; color: #856404;"><strong>A:</strong> Click the "🗑 Remove" button on the item card (coming soon)</p>
+        </div>
+
+        <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; border-left: 4px solid #17a2b8;">
+            <h4 style="margin-top: 0; color: #0c5460;">💡 Tip: Description Matters</h4>
+            <p style="margin: 8px 0; color: #0c5460;">Add good descriptions! It helps customers understand what they're ordering and increases orders</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div style="text-align: center; padding: 40px 20px; border-top: 1px solid #ecf0f1; margin-top: 30px;">
+        <h3>Ready to manage your restaurant?</h3>
+        <a href="{% url 'dashboard' %}" class="btn" style="margin-top: 15px;">Go to Dashboard</a>
+    </div>
+
+</div>
+
+{% endblock %}

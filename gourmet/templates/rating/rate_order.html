@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h1>⭐ Rate Your Order</h1>
+    <p>Help us improve by sharing your feedback</p>
+</div>
+
+<div style="max-width: 700px; margin: 0 auto;">
+    <div class="rate-section">
+        <h2>📦 Order #{{ order.id }}</h2>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b6b;">
+            <p style="margin: 8px 0;"><strong>🍽️ Item:</strong> {{ order.item.item_name }}</p>
+            <p style="margin: 8px 0;"><strong>🏪 Restaurant:</strong> {{ order.restaurant.name }}</p>
+            <p style="margin: 8px 0;"><strong>💰 Price:</strong> ₹{{ order.total_price }}</p>
+        </div>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Restaurant Rating Section -->
+        <div class="rate-section">
+            <h2>🍽️ Rate the Restaurant</h2>
+            
+            <div class="form-group">
+                <label><strong>How was your food?</strong></label>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="rating" value="5" {% if existing_rating.rating == 5 %}checked{% endif %} required>
+                        <span>⭐⭐⭐⭐⭐ Excellent</span>
+                    </label>
+                </div>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="rating" value="4" {% if existing_rating.rating == 4 %}checked{% endif %}>
+                        <span>⭐⭐⭐⭐ Very Good</span>
+                    </label>
+                </div>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="rating" value="3" {% if existing_rating.rating == 3 %}checked{% endif %}>
+                        <span>⭐⭐⭐ Good</span>
+                    </label>
+                </div>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="rating" value="2" {% if existing_rating.rating == 2 %}checked{% endif %}>
+                        <span>⭐⭐ Fair</span>
+                    </label>
+                </div>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="rating" value="1" {% if existing_rating.rating == 1 %}checked{% endif %}>
+                        <span>⭐ Poor</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="review"><strong>Tell us about your experience (Optional)</strong></label>
+                <textarea id="review" name="review" placeholder="What did you like or dislike about the food?" style="min-height: 100px;">{{ existing_rating.review }}</textarea>
+            </div>
+        </div>
+
+        <!-- Delivery Rating Section -->
+        <div class="rate-section">
+            <h2>🚴 Rate the Delivery</h2>
+            
+            <div class="form-group">
+                <label><strong>How was your delivery experience?</strong></label>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="delivery_rating" value="5" {% if existing_rating.delivery_rating == 5 %}checked{% endif %} required>
+                        <span>⭐⭐⭐⭐⭐ Excellent</span>
+                    </label>
+                </div>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="delivery_rating" value="4" {% if existing_rating.delivery_rating == 4 %}checked{% endif %}>
+                        <span>⭐⭐⭐⭐ Very Good</span>
+                    </label>
+                </div>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="delivery_rating" value="3" {% if existing_rating.delivery_rating == 3 %}checked{% endif %}>
+                        <span>⭐⭐⭐ Good</span>
+                    </label>
+                </div>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="delivery_rating" value="2" {% if existing_rating.delivery_rating == 2 %}checked{% endif %}>
+                        <span>⭐⭐ Fair</span>
+                    </label>
+                </div>
+                <div class="rating-stars">
+                    <label class="star-option">
+                        <input type="radio" name="delivery_rating" value="1" {% if existing_rating.delivery_rating == 1 %}checked{% endif %}>
+                        <span>⭐ Poor</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="delivery_review"><strong>Delivery feedback (Optional)</strong></label>
+                <textarea id="delivery_review" name="delivery_review" placeholder="Was the delivery on time? Was the food hot/fresh? Tell us more..." style="min-height: 100px;">{{ existing_rating.delivery_review }}</textarea>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button type="submit" class="btn" style="padding: 14px 40px; font-size: 16px;">
+                ✓ Submit Rating
+            </button>
+        </div>
+    </form>
+
+    <div style="text-align: center; padding: 20px; border-top: 1px solid #ecf0f1;">
+        <a href="{% url 'dashboard' %}" style="color: #007bff; text-decoration: none; font-weight: 500;">← Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📦 My Orders</h1>
+    <p>Track all your orders and manage payments</p>
+</div>
+
+{% if orders %}
+    <!-- Order Summary Stats -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px;">
+        <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; text-align: center;">
+            <div style="font-size: 28px; font-weight: bold; color: #856404;">{{ pending_count }}</div>
+            <div style="color: #856404; font-size: 14px; margin-top: 5px;">Pending Orders</div>
+        </div>
+        <div style="background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #17a2b8; text-align: center;">
+            <div style="font-size: 28px; font-weight: bold; color: #0c5460;">{{ accepted_count }}</div>
+            <div style="color: #0c5460; font-size: 14px; margin-top: 5px;">Accepted Orders</div>
+        </div>
+        <div style="background: linear-gradient(135deg, #d1f2eb 0%, #c3e9de 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #20c997; text-align: center;">
+            <div style="font-size: 28px; font-weight: bold; color: #0f5132;">{{ delivery_count }}</div>
+            <div style="color: #0f5132; font-size: 14px; margin-top: 5px;">In Delivery</div>
+        </div>
+        <div style="background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #4CAF50; text-align: center;">
+            <div style="font-size: 28px; font-weight: bold; color: #1b5e20;">{{ completed_count }}</div>
+            <div style="color: #1b5e20; font-size: 14px; margin-top: 5px;">Completed</div>
+        </div>
+    </div>
+
+    <!-- Pending Payment Section -->
+    <div class="section">
+        <h2 style="color: #dc3545;">💰 Pending Payment</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Restaurant</th>
+                        <th>Amount</th>
+                        <th>Ordered On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in pending_payment %}
+                    <tr style="background: #ffe6e6;">
+                        <td><strong>{{ order.item.item_name }}</strong></td>
+                        <td>{{ order.restaurant.name }}</td>
+                        <td><strong style="color: #dc3545;">₹{{ order.total_price }}</strong></td>
+                        <td style="font-size: 13px;">{{ order.created_at|date:"d M, h:i A" }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'process_payment' order.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-small">Pay Now</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- All Orders Table -->
+    <div class="section">
+        <h2>📋 All Orders</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Item</th>
+                        <th>Restaurant</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                        <th>Ordered On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><strong>#{{ order.id }}</strong></td>
+                        <td>{{ order.item.item_name }}</td>
+                        <td>{{ order.restaurant.name }}</td>
+                        <td>₹{{ order.total_price }}</td>
+                        <td>
+                            {% if order.status == 'pending' %}
+                                <span class="badge badge-pending">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'accepted' %}
+                                <span class="badge badge-accepted">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'out_for_delivery' %}
+                                <span class="badge badge-delivery">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'delivered' %}
+                                <span class="badge badge-delivered">{{ order.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.payment_status %}
+                                <span style="background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">✓ Paid</span>
+                            {% else %}
+                                <span style="background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">✗ Pending</span>
+                            {% endif %}
+                        </td>
+                        <td style="font-size: 13px;">{{ order.created_at|date:"d M" }}</td>
+                        <td>
+                            {% if order.status == 'delivered' and not has_rated %}
+                                <a href="{% url 'rate_order' order.id %}" class="btn btn-primary btn-small">⭐ Rate</a>
+                            {% elif order.status == 'delivered' %}
+                                <span style="font-size: 12px; color: #7f8c8d;">Rated ✓</span>
+                            {% else %}
+                                <span style="font-size: 12px; color: #7f8c8d;">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Order Details Cards (Alternative View) -->
+    <div class="section">
+        <h2>📦 Order Details</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+            {% for order in orders %}
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                    <h3 style="margin: 0; font-size: 16px;">Order #{{ order.id }}</h3>
+                    {% if order.status == 'pending' %}
+                        <span class="badge badge-pending">{{ order.get_status_display }}</span>
+                    {% elif order.status == 'accepted' %}
+                        <span class="badge badge-accepted">{{ order.get_status_display }}</span>
+                    {% elif order.status == 'out_for_delivery' %}
+                        <span class="badge badge-delivery">{{ order.get_status_display }}</span>
+                    {% elif order.status == 'delivered' %}
+                        <span class="badge badge-delivered">{{ order.get_status_display }}</span>
+                    {% endif %}
+                </div>
+
+                <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                    <p style="margin: 6px 0;"><strong>🍽️ Item:</strong> {{ order.item.item_name }}</p>
+                    <p style="margin: 6px 0;"><strong>🏪 Restaurant:</strong> {{ order.restaurant.name }}</p>
+                    <p style="margin: 6px 0;"><strong>📍 Location:</strong> {{ order.restaurant.location }}</p>
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <p style="margin: 6px 0;"><strong>💰 Price:</strong> ₹{{ order.total_price }}</p>
+                    {% if order.discount %}
+                    <p style="margin: 6px 0; color: #28a745;"><strong>💚 Discount:</strong> -₹{{ order.discount }}</p>
+                    <p style="margin: 6px 0;"><strong>Final Amount:</strong> ₹{{ order.total_price|add:order.discount|add:0 }}</p>
+                    {% endif %}
+                    <p style="margin: 6px 0;"><strong>📅 Ordered:</strong> {{ order.created_at|date:"d M Y, h:i A" }}</p>
+                </div>
+
+                <div style="border-top: 1px solid #ecf0f1; padding-top: 12px;">
+                    {% if order.payment_status %}
+                        <span style="background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">✓ Payment Completed</span>
+                    {% else %}
+                        <form method="POST" action="{% url 'process_payment' order.id %}" style="display: inline; width: 100%;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success" style="width: 100%; padding: 8px;">💳 Pay Now</button>
+                        </form>
+                    {% endif %}
+
+                    {% if order.status == 'delivered' %}
+                        <a href="{% url 'rate_order' order.id %}" class="btn btn-primary" style="width: 100%; padding: 8px; margin-top: 8px; text-align: center; display: block;">⭐ Rate Order</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% else %}
+    <div class="empty-state" style="padding: 80px 20px;">
+        <h2 style="font-size: 32px; margin-bottom: 15px;">📭 No Orders Yet</h2>
+        <p style="color: #7f8c8d; font-size: 16px; margin-bottom: 30px;">You haven't placed any orders yet. Start ordering from your favorite restaurants!</p>
+        <a href="{% url 'home' %}" class="btn" style="padding: 12px 30px; font-size: 16px;">🍽️ Browse Restaurants</a>
+    </div>
+{% endif %}
+
+{% endblock %}

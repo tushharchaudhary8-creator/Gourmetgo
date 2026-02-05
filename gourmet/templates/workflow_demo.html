@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🎯 Complete Order Workflow Demo</h1>
+    <p>See how customer orders flow through restaurant and delivery systems</p>
+</div>
+
+<div class="container">
+    <!-- Workflow Steps -->
+    <div class="section">
+        <h2>📋 Order Journey</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            
+            <!-- Step 1: Customer Places Order -->
+            <div class="card" style="border-left: 4px solid #4CAF50;">
+                <h3>1️⃣ Customer Places Order</h3>
+                <div style="background: #f0f7f0; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                    <p style="margin: 5px 0;"><strong>Who:</strong> Customer (e.g., customer1)</p>
+                    <p style="margin: 5px 0;"><strong>Where:</strong> Home Page → Dashboard</p>
+                    <p style="margin: 5px 0;"><strong>What:</strong> Browse restaurants & click "Order Now"</p>
+                </div>
+                <div style="background: #fff9e6; padding: 12px; border-radius: 6px; border-left: 3px solid #ffc107;">
+                    <strong>Status:</strong> <span class="badge badge-pending">Pending</span><br>
+                    <small>Waiting for restaurant to accept</small>
+                </div>
+            </div>
+
+            <!-- Step 2: Payment -->
+            <div class="card" style="border-left: 4px solid #2196F3;">
+                <h3>2️⃣ Customer Pays</h3>
+                <div style="background: #f0f8ff; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                    <p style="margin: 5px 0;"><strong>Who:</strong> Customer</p>
+                    <p style="margin: 5px 0;"><strong>Where:</strong> Dashboard → Pending Payment</p>
+                    <p style="margin: 5px 0;"><strong>What:</strong> Click "Pay Now" & apply coupon</p>
+                </div>
+                <div style="background: #e8f5e9; padding: 12px; border-radius: 6px; border-left: 3px solid #4CAF50;">
+                    <strong>Coupons:</strong><br>
+                    <small>
+                        • SAVE10 (10% off)<br>
+                        • NEWUSER20 (20% off)<br>
+                        • WELCOME50 (₹50 off)
+                    </small>
+                </div>
+            </div>
+
+            <!-- Step 3: Restaurant Accepts -->
+            <div class="card" style="border-left: 4px solid #FF9800;">
+                <h3>3️⃣ Restaurant Accepts</h3>
+                <div style="background: #fff3e0; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                    <p style="margin: 5px 0;"><strong>Who:</strong> Restaurant Owner (e.g., pizza_palace)</p>
+                    <p style="margin: 5px 0;"><strong>Where:</strong> Dashboard → Incoming Orders</p>
+                    <p style="margin: 5px 0;"><strong>What:</strong> See order → Change status to "Accepted"</p>
+                </div>
+                <div style="background: #d4edda; padding: 12px; border-radius: 6px; border-left: 3px solid #28a745;">
+                    <strong>Status:</strong> <span class="badge badge-accepted">Accepted</span><br>
+                    <small>Restaurant preparing food</small>
+                </div>
+            </div>
+
+            <!-- Step 4: Mark for Delivery -->
+            <div class="card" style="border-left: 4px solid #673AB7;">
+                <h3>4️⃣ Food Ready for Delivery</h3>
+                <div style="background: #f3e5f5; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                    <p style="margin: 5px 0;"><strong>Who:</strong> Restaurant Owner</p>
+                    <p style="margin: 5px 0;"><strong>Where:</strong> Dashboard → Incoming Orders</p>
+                    <p style="margin: 5px 0;"><strong>What:</strong> Change status to "Out for Delivery"</p>
+                </div>
+                <div style="background: #d1ecf1; padding: 12px; border-radius: 6px; border-left: 3px solid #17a2b8;">
+                    <strong>Status:</strong> <span class="badge badge-delivery">Out for Delivery</span><br>
+                    <small>Ready to hand off to delivery</small>
+                </div>
+            </div>
+
+            <!-- Step 5: Delivery Boy Picks Up -->
+            <div class="card" style="border-left: 4px solid #E91E63;">
+                <h3>5️⃣ Delivery Boy Picks Up</h3>
+                <div style="background: #fce4ec; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                    <p style="margin: 5px 0;"><strong>Who:</strong> Delivery Partner (e.g., delivery1)</p>
+                    <p style="margin: 5px 0;"><strong>Where:</strong> Dashboard → Delivery Orders</p>
+                    <p style="margin: 5px 0;"><strong>What:</strong> See order ready for pickup</p>
+                </div>
+                <div style="background: #fff3cd; padding: 12px; border-radius: 6px; border-left: 3px solid #ffc107;">
+                    <strong>Sees:</strong> Restaurant location, Customer info<br>
+                    <small>Ready to pick up and deliver</small>
+                </div>
+            </div>
+
+            <!-- Step 6: Deliver & Mark Complete -->
+            <div class="card" style="border-left: 4px solid #009688;">
+                <h3>6️⃣ Order Delivered</h3>
+                <div style="background: #e0f2f1; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                    <p style="margin: 5px 0;"><strong>Who:</strong> Delivery Partner</p>
+                    <p style="margin: 5px 0;"><strong>Where:</strong> Dashboard → Delivery Orders</p>
+                    <p style="margin: 5px 0;"><strong>What:</strong> Change status to "Delivered"</p>
+                </div>
+                <div style="background: #c8e6c9; padding: 12px; border-radius: 6px; border-left: 3px solid #4CAF50;">
+                    <strong>Status:</strong> <span class="badge badge-delivered">Delivered</span><br>
+                    <small>Order successfully delivered!</small>
+                </div>
+            </div>
+
+            <!-- Step 7: Customer Rates -->
+            <div class="card" style="border-left: 4px solid #F44336;">
+                <h3>7️⃣ Customer Rates Order</h3>
+                <div style="background: #ffebee; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                    <p style="margin: 5px 0;"><strong>Who:</strong> Customer</p>
+                    <p style="margin: 5px 0;"><strong>Where:</strong> Dashboard → Order Status → Rate Button</p>
+                    <p style="margin: 5px 0;"><strong>What:</strong> Rate restaurant & delivery (1-5 stars)</p>
+                </div>
+                <div style="background: #fff3cd; padding: 12px; border-radius: 6px; border-left: 3px solid #FFC107;">
+                    <strong>Feedback:</strong> ⭐⭐⭐⭐⭐<br>
+                    <small>Rating updates restaurant average</small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Quick Test Scenario -->
+    <div class="section">
+        <h2>🧪 Quick Test Scenario (10 minutes)</h2>
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #007bff;">
+            <ol style="line-height: 2; font-size: 15px;">
+                <li><strong>Login as customer1</strong> (password: password123)</li>
+                <li>Click <strong>"Order Now"</strong> on any menu item</li>
+                <li>Go to <strong>Dashboard → Pending Payment</strong></li>
+                <li>Click <strong>"Pay Now"</strong> → Apply coupon <strong>"SAVE10"</strong> → Pay</li>
+                <li><strong>Logout</strong> and login as <strong>pizza_palace</strong> (password: password123)</li>
+                <li>Go to <strong>Dashboard → Incoming Orders</strong></li>
+                <li>Change order status to <strong>"Accepted"</strong></li>
+                <li>Change order status to <strong>"Out for Delivery"</strong></li>
+                <li><strong>Logout</strong> and login as <strong>delivery1</strong> (password: password123)</li>
+                <li>Go to <strong>Dashboard → Delivery Orders</strong></li>
+                <li>Change status to <strong>"Delivered"</strong></li>
+                <li><strong>Logout</strong> and login as <strong>customer1</strong> again</li>
+                <li>Go to <strong>Dashboard → Order Status</strong></li>
+                <li>Click <strong>"Rate"</strong> button and submit ratings</li>
+                <li><strong>Complete! ✅</strong> Check restaurant rating updated</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Test Accounts -->
+    <div class="section">
+        <h2>🔑 Test Accounts</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Use For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge" style="background: #4CAF50; color: white;">Customer</span></td>
+                        <td><strong>customer1</strong></td>
+                        <td><code>password123</code></td>
+                        <td>Place orders & rate</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge" style="background: #4CAF50; color: white;">Customer</span></td>
+                        <td><strong>customer2</strong></td>
+                        <td><code>password123</code></td>
+                        <td>Alternate customer</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge" style="background: #FF9800; color: white;">Restaurant</span></td>
+                        <td><strong>pizza_palace</strong></td>
+                        <td><code>password123</code></td>
+                        <td>Manage orders & menus</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge" style="background: #FF9800; color: white;">Restaurant</span></td>
+                        <td><strong>burger_barn</strong></td>
+                        <td><code>password123</code></td>
+                        <td>Alternate restaurant</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge" style="background: #FF9800; color: white;">Restaurant</span></td>
+                        <td><strong>sushi_spot</strong></td>
+                        <td><code>password123</code></td>
+                        <td>Alternate restaurant</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge" style="background: #2196F3; color: white;">Delivery</span></td>
+                        <td><strong>delivery1</strong></td>
+                        <td><code>password123</code></td>
+                        <td>Deliver orders</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Available Coupons -->
+    <div class="section">
+        <h2>🎟️ Available Coupons</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            <div style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                <h3 style="margin-top: 0; color: #155724;">SAVE10</h3>
+                <p style="margin: 5px 0;"><strong>Discount:</strong> 10% off</p>
+                <p style="margin: 5px 0;"><strong>Max Discount:</strong> ₹200</p>
+                <p style="margin: 5px 0;"><strong>Min Order:</strong> ₹100</p>
+            </div>
+            <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%); padding: 15px; border-radius: 8px; border-left: 4px solid #856404;">
+                <h3 style="margin-top: 0; color: #856404;">NEWUSER20</h3>
+                <p style="margin: 5px 0;"><strong>Discount:</strong> 20% off</p>
+                <p style="margin: 5px 0;"><strong>Max Discount:</strong> ₹300</p>
+                <p style="margin: 5px 0;"><strong>Min Order:</strong> ₹150</p>
+            </div>
+            <div style="background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%); padding: 15px; border-radius: 8px; border-left: 4px solid #0c5460;">
+                <h3 style="margin-top: 0; color: #0c5460;">WELCOME50</h3>
+                <p style="margin: 5px 0;"><strong>Discount:</strong> ₹50 fixed</p>
+                <p style="margin: 5px 0;"><strong>Min Order:</strong> ₹200</p>
+                <p style="margin: 5px 0; opacity: 0.8;">Great for first orders!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Color Reference -->
+    <div class="section">
+        <h2>🎨 Status Color Reference</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div style="text-align: center; padding: 15px; border-radius: 8px; background: #fff3cd; border: 2px solid #ffc107;">
+                <div style="font-size: 32px; margin-bottom: 10px;">🟨</div>
+                <div><strong>Pending</strong></div>
+                <small>Waiting for action</small>
+            </div>
+            <div style="text-align: center; padding: 15px; border-radius: 8px; background: #d4edda; border: 2px solid #28a745;">
+                <div style="font-size: 32px; margin-bottom: 10px;">🟩</div>
+                <div><strong>Accepted</strong></div>
+                <small>Confirmed & ready</small>
+            </div>
+            <div style="text-align: center; padding: 15px; border-radius: 8px; background: #d1ecf1; border: 2px solid #17a2b8;">
+                <div style="font-size: 32px; margin-bottom: 10px;">🟦</div>
+                <div><strong>Out for Delivery</strong></div>
+                <small>In transit</small>
+            </div>
+            <div style="text-align: center; padding: 15px; border-radius: 8px; background: #c8e6c9; border: 2px solid #4CAF50;">
+                <div style="font-size: 32px; margin-bottom: 10px;">✅</div>
+                <div><strong>Delivered</strong></div>
+                <small>Complete</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div style="text-align: center; padding: 40px 20px; border-top: 1px solid #ecf0f1;">
+    <h3>Ready to test? 🚀</h3>
+    <a href="{% url 'login' %}" class="btn" style="margin-top: 15px;">Login to Start</a>
+</div>
+
+{% endblock %}

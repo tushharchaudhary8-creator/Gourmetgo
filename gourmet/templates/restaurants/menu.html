@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Manage Menu</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <input name="item_name" placeholder="Item name" required>
+    <input name="price" placeholder="Price" required>
+    <button>Add</button>
+</form>
+
+<hr>
+
+{% for item in menu_items %}
+    <p>{{ item.item_name }} - ₹{{ item.price }}</p>
+{% endfor %}
+{% endblock %}

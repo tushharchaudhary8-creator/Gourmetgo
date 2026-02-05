@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h1>🚴 Delivery Orders</h1>
+    <p>Manage pending deliveries and track orders</p>
+</div>
+
+<div class="section">
+    {% if orders %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>From Restaurant</th>
+                        <th>To Customer</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><strong>{{ order.item.item_name }}</strong></td>
+                        <td>
+                            <strong>{{ order.restaurant.name }}</strong>
+                            <br><span style="font-size: 12px; color: #7f8c8d;">📍 {{ order.restaurant.location }}</span>
+                        </td>
+                        <td>
+                            {{ order.customer.username }}
+                            <br><span style="font-size: 12px; color: #7f8c8d;">🚚 Pick up order</span>
+                        </td>
+                        <td>{{ order.restaurant.location }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <select name="status" onchange="this.form.submit()" style="padding: 8px; border: 2px solid #ecf0f1; border-radius: 4px; font-size: 13px; font-weight: 500;">
+                                    <option value="out_for_delivery" {% if order.status == 'out_for_delivery' %}selected{% endif %}>🚴 Out for Delivery</option>
+                                    <option value="delivered" {% if order.status == 'delivered' %}selected{% endif %}>✓ Delivered</option>
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>✨ No pending deliveries. Great job!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

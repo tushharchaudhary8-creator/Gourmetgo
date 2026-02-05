@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h1>🛒 Order Food</h1>
+    <p>Browse restaurants and place your order</p>
+</div>
+
+<div class="card-grid">
+    {% for m in menus %}
+    <div class="card">
+        <h3>{{ m.item_name }}</h3>
+        <p>{{ m.restaurant.name }}</p>
+        {% if m.description %}
+            <p style="color: #7f8c8d; font-size: 13px;">{{ m.description }}</p>
+        {% endif %}
+        <div class="card-price">₹{{ m.price }}</div>
+        <a class="btn" href="{% url 'place_order' m.id %}" style="width: 100%; text-align: center; display: block;">Order Now</a>
+    </div>
+    {% endfor %}
+</div>
+
+<div style="text-align: center; padding: 40px 20px; border-top: 1px solid #ecf0f1; margin-top: 40px;">
+    <h3>📦 Track Your Orders</h3>
+    <p style="color: #7f8c8d; margin-bottom: 20px;">View all your orders, track delivery status, and apply payments</p>
+    <a href="{% url 'my_orders' %}" class="btn btn-primary" style="padding: 12px 30px; font-size: 16px;">Go to My Orders →</a>
+</div>
+
+{% endblock %}

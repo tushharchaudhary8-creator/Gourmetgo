@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GourmetGo - Food Delivery Platform</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">🍽️ GourmetGo</a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            {% if user.profile.role == 'customer' %}
+                <a href="{% url 'my_orders' %}" style="position: relative;">
+                    Orders
+                    {% with pending_orders=user.order_set.all|dictsort:"status"|length %}
+                        {% if pending_orders %}
+                        <span style="position: absolute; top: -8px; right: -8px; background: #dc3545; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">{{ pending_orders }}</span>
+                        {% endif %}
+                    {% endwith %}
+                </a>
+            {% endif %}
+            <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
