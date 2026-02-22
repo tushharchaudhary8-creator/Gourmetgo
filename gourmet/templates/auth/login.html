@@ -33,5 +33,55 @@
             <p>Don't have an account? <a href="{% url 'register' %}" style="color: #ff6b6b; font-weight: 600; text-decoration: none;">Register here</a></p>
         </div>
     </div>
+    
+    <!-- API Test Section -->
+    <div class="section" style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+        <h3 style="margin-top: 0; color: #2c3e50;">🧪 API Testing</h3>
+        <p style="font-size: 14px; color: #666;">Test the REST API directly from your browser</p>
+        
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+            <button onclick="testAPI('health')" class="btn" style="background: #27ae60;">Health Check</button>
+            <button onclick="testAPI('restaurants')" class="btn" style="background: #3498db;">Get Restaurants</button>
+            <button onclick="testAPI('orders')" class="btn" style="background: #9b59b6;">Get Orders</button>
+            <button onclick="testAPI('users')" class="btn" style="background: #e67e22;">Get Users</button>
+        </div>
+        
+        <div id="api-result" style="display: none; background: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto; white-space: pre-wrap; word-break: break-all;"></div>
+    </div>
 </div>
+
+<script>
+    // API Base URL - change this to your FastAPI server
+    const API_BASE = 'http://localhost:8000';
+
+    async function testAPI(endpoint) {
+        const resultDiv = document.getElementById('api-result');
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = 'Loading...';
+        
+        try {
+            const response = await fetch(`${API_BASE}/api/${endpoint}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            const data = await response.json();
+            resultDiv.innerHTML = `✅ Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+        } catch (error) {
+            resultDiv.innerHTML = `❌ Error: ${error.message}\n\nMake sure FastAPI is running:\ncd gourmet && uvicorn api:app --reload --port 8000`;
+        }
+    }
+
+    // Console API helper
+    window.testAPI = testAPI;
+    console.log('%c🧪 GourmetGo API Tester', 'font-size: 16px; font-weight: bold; color: #27ae60;');
+    console.log('%cUse these commands in console:', 'color: #666;');
+    console.log('%ctestAPI("health") - Health check', 'color: #27ae60;');
+    console.log('%ctestAPI("restaurants") - Get all restaurants', 'color: #3498db;');
+    console.log('%ctestAPI("orders") - Get all orders', 'color: #9b59b6;');
+    console.log('%ctestAPI("users") - Get all users', 'color: #e67e22;');
+    console.log('%ctestAPI("coupons") - Get coupons', 'color: #f39c12;');
+</script>
 {% endblock %}
